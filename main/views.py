@@ -1,14 +1,14 @@
 from django.views.generic import TemplateView
 from django.conf import settings
 
+from jsdata.views import JSDataViewMixin
 
-class IndexView(TemplateView):
+
+class IndexView(JSDataViewMixin, TemplateView):
     template_name = 'index.html'
 
-    def get_jsdata(self):
-        data = {
-            'static': settings.STATIC_URL
-        }
+    def get_jsdata(self, **data):
+        data['static'] = settings.STATIC_URL
         if self.request.user.is_authenticated():
             user = self.request.user
             data['user'] = {
